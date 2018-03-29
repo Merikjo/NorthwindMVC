@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using NorthwindMVC.Models;
+using NorthwindMVC.ViewModels;
 
 namespace NorthwindMVC.Controllers
 {
@@ -17,20 +18,54 @@ namespace NorthwindMVC.Controllers
         // GET: Customers
         public ActionResult Index()
         {
-            List<Customers> model = new List<Customers>();
+            List<CustomerViewModel> model = new List<CustomerViewModel>();
+
+            NorthwindDataEntities entities = new NorthwindDataEntities();
+
             try
             {
-                NorthwindDataEntities entities = new NorthwindDataEntities();
-                model = entities.Customers.ToList();
-                entities.Dispose();
+                List<Customers> customers = entities.Customers.OrderBy(Customers => Customers.CompanyName).ToList();
+
+                // muodostetaan näkymämalli tietokannan rivien pohjalta       
+                foreach (Customers customer in customers)
+                {
+                    CustomerViewModel view = new CustomerViewModel();
+                    view.CustomerID = customer.CustomerID;
+                    view.CompanyName = customer.CompanyName;
+                    view.ContactName = customer.ContactName;
+                    view.ContactTitle = customer.ContactTitle;
+                    view.Address = customer.Address;
+                    view.City = customer.City;
+                    view.Region = customer.Region;
+                    view.PostalCode = customer.PostalCode;
+                    view.Country = customer.Country;
+                    view.Phone = customer.Phone;
+                    view.Fax = customer.Fax;
+            
+                    model.Add(view);
+                }
             }
-            catch (Exception ex)
+            finally
             {
-                ViewBag.ErrorMessage = ex.GetType() + ": " + ex.Message;
+                entities.Dispose();
             }
 
             return View(model);
-        }
+        //Index
+         //List<Customers> model = new List<Customers>();
+         //try
+         //{
+         //    NorthwindDataEntities entities = new NorthwindDataEntities();
+         //    model = entities.Customers.ToList();
+         //    entities.Dispose();
+         //}
+         //catch (Exception ex)
+         //{
+         //    ViewBag.ErrorMessage = ex.GetType() + ": " + ex.Message;
+         //}
+
+        //return View(model);
+    }
 
 
         public ActionResult GetOrders(string id)
@@ -61,40 +96,92 @@ namespace NorthwindMVC.Controllers
         // GET: Customers/Details/5
         public ActionResult Details(string id)
         {
-            if (id == null)
+            CustomerViewModel model = new CustomerViewModel();
+
+            NorthwindDataEntities entities = new NorthwindDataEntities();
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+               Customers customer = entities.Customers.Find(id);
+                if (customer == null)
+                {
+                    return HttpNotFound();
+                }
+
+                // muodostetaan näkymämalli tietokannan rivien pohjalta    
+                CustomerViewModel view = new CustomerViewModel();
+                view.CustomerID = customer.CustomerID;
+                view.CompanyName = customer.CompanyName;
+                view.ContactName = customer.ContactName;
+                view.ContactTitle = customer.ContactTitle;
+                view.Address = customer.Address;
+                view.City = customer.City;
+                view.Region = customer.Region;
+                view.PostalCode = customer.PostalCode;
+                view.Country = customer.Country;
+                view.Phone = customer.Phone;
+                view.Fax = customer.Fax;
+
+                //ViewBag.ReportsTo = new SelectList((from e in db.Employees select new { EmployeeID = e.EmployeeID, ReportsTo = e.ReportsTo }), "EmployeeID", "ReportsTo", null);
+
+                model = view;
             }
-            Customers customers = db.Customers.Find(id);
-            if (customers == null)
+            finally
             {
-                return HttpNotFound();
+                entities.Dispose();
             }
-            return View(customers);
-        }
+            return View(model);
+        }//details
 
         // GET: Customers/Create
         public ActionResult Create()
         {
-            return View();
-        }
+            NorthwindDataEntities entities = new NorthwindDataEntities();
+
+            CustomerViewModel model = new CustomerViewModel();
+
+            //ViewBag.ReportsTo = new SelectList((from e in db.Employees select new { EmployeeID = e.EmployeeID, ReportsTo = e.ReportsTo }), "EmployeeID", "ReportsTo", null);
+
+
+            return View(model);
+        }//create
+
 
         // POST: Customers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CustomerID,CompanyName,ContactName,ContactTitle,Address,City,Region,PostalCode,Country,Phone,Fax")] Customers customers)
+        public ActionResult Create(CustomerViewModel model)
         {
-            if (ModelState.IsValid)
+            NorthwindDataEntities entities = new NorthwindDataEntities();
+
+            Customers view = new Customers();
+            view.CompanyName = model.CompanyName;
+            view.ContactName = model.ContactName;
+            view.ContactTitle = model.ContactTitle;
+            view.Address = model.Address;
+            view.City = model.City;
+            view.Region = model.Region;
+            view.PostalCode = model.PostalCode;
+            view.Country = model.Country;
+            view.Phone = model.Phone;
+            view.Fax = model.Fax;
+
+            //ViewBag.ReportsTo = new SelectList((from e in db.Employees select new { EmployeeID = e.EmployeeID, ReportsTo = e.ReportsTo }), "EmployeeID", "ReportsTo", null);
+
+            db.Customers.Add(view);
+
+            try
             {
-                db.Customers.Add(customers);
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
 
-            return View(customers);
-        }
+            catch (Exception ex)
+            {
+            }
+
+            return RedirectToAction("Index");
+        }//create
 
         // GET: Customers/Edit/5
         public ActionResult Edit(string id)
@@ -103,12 +190,27 @@ namespace NorthwindMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customers customers = db.Customers.Find(id);
-            if (customers == null)
+            Customers customer = db.Customers.Find(id);
+            if (customer == null)
             {
                 return HttpNotFound();
             }
-            return View(customers);
+            CustomerViewModel view = new CustomerViewModel();
+            view.CustomerID = customer.CustomerID;
+            view.CompanyName = customer.CompanyName;
+            view.ContactName = customer.ContactName;
+            view.ContactTitle = customer.ContactTitle;
+            view.Address = customer.Address;
+            view.City = customer.City;
+            view.Region = customer.Region;
+            view.PostalCode = customer.PostalCode;
+            view.Country = customer.Country;
+            view.Phone = customer.Phone;
+            view.Fax = customer.Fax;
+
+            //ViewBag.ReportsTo = new SelectList((from e in db.Employees select new { EmployeeID = e.EmployeeID, ReportsTo = e.ReportsTo }), "EmployeeID", "ReportsTo", null);
+
+            return View(view);
         }
 
         // POST: Customers/Edit/5
@@ -116,30 +218,53 @@ namespace NorthwindMVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CustomerID,CompanyName,ContactName,ContactTitle,Address,City,Region,PostalCode,Country,Phone,Fax")] Customers customers)
+        public ActionResult Edit(CustomerViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(customers).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(customers);
-        }
+            Customers view = new Customers();
+            view.CompanyName = model.CompanyName;
+            view.ContactName = model.ContactName;
+            view.ContactTitle = model.ContactTitle;
+            view.Address = model.Address;
+            view.City = model.City;
+            view.Region = model.Region;
+            view.PostalCode = model.PostalCode;
+            view.Country = model.Country;
+            view.Phone = model.Phone;
+            view.Fax = model.Fax;
+
+            db.SaveChanges();
+
+            return View("Index");
+        }//edit
 
         // GET: Customers/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customers customers = db.Customers.Find(id);
-            if (customers == null)
+            Customers customer = db.Customers.Find(id);
+            if (customer == null)
             {
                 return HttpNotFound();
             }
-            return View(customers);
+            CustomerViewModel view = new CustomerViewModel();
+            view.CustomerID = customer.CustomerID;
+            view.CompanyName = customer.CompanyName;
+            view.ContactName = customer.ContactName;
+            view.ContactTitle = customer.ContactTitle;
+            view.Address = customer.Address;
+            view.City = customer.City;
+            view.Region = customer.Region;
+            view.PostalCode = customer.PostalCode;
+            view.Country = customer.Country;
+            view.Phone = customer.Phone;
+            view.Fax = customer.Fax;
+
+            return View(view);
         }
 
         // POST: Customers/Delete/5
@@ -147,8 +272,8 @@ namespace NorthwindMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            Customers customers = db.Customers.Find(id);
-            db.Customers.Remove(customers);
+            Customers customer = db.Customers.Find(id);
+            db.Customers.Remove(customer);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

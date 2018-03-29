@@ -1,4 +1,4 @@
-﻿@model NorthwindMVC.Models.Employees
+﻿@model NorthwindMVC.ViewModels.EmployeesViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -114,13 +114,13 @@
             @Html.DisplayFor(model => model.Extension)
         </dd>
 
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.Photo)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Photo)
-        </dd>
+        </dd>*@
 
         <dt>
             @Html.DisplayNameFor(model => model.Notes)
@@ -130,20 +130,20 @@
             @Html.DisplayFor(model => model.Notes)
         </dd>
 
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.PhotoPath)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.PhotoPath)
-        </dd>
+        </dd>*@
 
         <dt>
-            @Html.DisplayNameFor(model => model.Employees2.LastName)
+            @Html.DisplayNameFor(model => model.ReportsTo)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Employees2.LastName)
+            @Html.DisplayFor(model => model.ReportsTo)
         </dd>
 
     </dl>

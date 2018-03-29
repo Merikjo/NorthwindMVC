@@ -1,16 +1,49 @@
-﻿@model IEnumerable<NorthwindMVC.Models.Customers>
+﻿@model IEnumerable<NorthwindMVC.ViewModels.CustomerViewModel>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+@section scripts {
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".näytäTilauksetNappi").click(function () {
+                alert("Nappia painettu!");
+                var customerId = $(this).data("customerid");
+                //alert(customerId);
+                $("#orders_" + customerId).css("display", "block");
+                var url = "/customers/getorders/" + customerId;
+                $.ajax(url).done(function (data) {
+                    //alert("Palvelimelta tuli vastaus.");
+
+                    var orderData = "";
+                    for (var i = 0; i < data.length; i++) {
+                        orderData += (i + 1) + ": " + data[i].OrderId + " | " +
+                            data[i].OrderDate + " | " + data[i].CustomerId + "\r\n";
+                    }
+                    $("#orderText_" + customerId).html("<pre>" + orderData + "</pre>");
+                });
+            });
+        });
+    </script>
+}
+
+<h2>Customers</h2>
+
+<pre>
+@ViewBag.ErrorMessage
+</pre>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+<p><a href="/Customers/Create" class="w3-btn w3-large">Uusi henkilö</a></p>
 <table class="table">
     <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerID)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.CompanyName)
         </th>
@@ -44,44 +77,55 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.CompanyName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ContactName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ContactTitle)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Address)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.City)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Region)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PostalCode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Country)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Phone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fax)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CustomerID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CustomerID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CustomerID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <a href="#"><span data-customerid="@Html.DisplayFor(modelItem => item.CustomerID)" class="glyphicon glyphicon-plus näytäTilauksetNappi"></span></a>
+                @Html.DisplayFor(modelItem => item.CustomerID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Region)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostalCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fax)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {id=item.CustomerID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.CustomerID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.CustomerID })
+            </td>
+        </tr>
+        //luodaan alinäkymän tiedot:
+        <tr style="display: none;" id="orders_@Html.DisplayFor(modelItem => item.CustomerID)">
+            <td id="margin_@Html.DisplayFor(modelItem => item.CustomerID)">&nbsp;</td>
+      
+            <td colspan="5" id="orderText_@Html.DisplayFor(modelItem => item.CustomerID)"><pre>Loading...</pre></td>
+        </tr>
+    }
 
 </table>

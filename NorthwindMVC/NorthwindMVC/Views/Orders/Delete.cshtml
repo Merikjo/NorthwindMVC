@@ -1,4 +1,4 @@
-﻿@model NorthwindMVC.Models.Orders
+﻿@model NorthwindMVC.ViewModels.OrderViewModel
 
 @{
     ViewBag.Title = "Delete";
@@ -92,28 +92,28 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Customers.CompanyName)
+            @Html.DisplayNameFor(model => model.CompanyName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Customers.CompanyName)
+            @Html.DisplayFor(model => model.CompanyName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Employees.LastName)
+            @Html.DisplayNameFor(model => model.LastName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Employees.LastName)
+            @Html.DisplayFor(model => model.LastName)
         </dd>
 
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.Shippers.CompanyName)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Shippers.CompanyName)
-        </dd>
+        </dd>*@
 
     </dl>
 

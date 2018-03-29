@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NorthwindMVC.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,8 +10,7 @@ namespace NorthwindMVC.ViewModels
     {
         public CustomerViewModel()
         {
-            //this.Orders = new HashSet<Orders>();
-           
+            this.Orders = new HashSet<Orders>();
         }
 
         public string CustomerID { get; set; }
@@ -26,8 +26,8 @@ namespace NorthwindMVC.ViewModels
         public string Fax { get; set; }
 
 
-        //public virtual ICollection<Orders> Orders { get; set; }
+        public virtual ICollection<Orders> Orders { get; set; }
 
-        
+
     }
 }

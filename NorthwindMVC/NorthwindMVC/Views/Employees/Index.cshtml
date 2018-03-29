@@ -1,4 +1,4 @@
-﻿@model IEnumerable<NorthwindMVC.Models.Employees>
+﻿@model IEnumerable<NorthwindMVC.ViewModels.EmployeesViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -50,18 +50,19 @@
         <th>
             @Html.DisplayNameFor(model => model.Extension)
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.Photo)
-        </th>
+        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.Notes)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.ReportsTo)
+        </th>
+        @*<th>
             @Html.DisplayNameFor(model => model.PhotoPath)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Employees2.LastName)
-        </th>
+        </th>*@
+
         <th></th>
     </tr>
 
@@ -106,22 +107,23 @@
         <td>
             @Html.DisplayFor(modelItem => item.Extension)
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.Photo)
-        </td>
+        </td>*@
         <td>
             @Html.DisplayFor(modelItem => item.Notes)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.ReportsTo)
+        </td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.PhotoPath)
-        </td>
+        </td>*@
+
         <td>
-            @Html.DisplayFor(modelItem => item.Employees2.LastName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.EmployeeID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.EmployeeID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.EmployeeID })
+            @Html.ActionLink("Edit", "Edit", new { id = item.EmployeeID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.EmployeeID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.EmployeeID })
         </td>
     </tr>
 }
