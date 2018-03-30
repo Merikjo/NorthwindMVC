@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -24,23 +25,23 @@ namespace NorthwindMVC.Controllers
 
             try
             {
-                List<Customers> customers = entities.Customers.OrderBy(Customers => Customers.CompanyName).ToList();
+                List<Customers> customer = entities.Customers.OrderBy(Customers => Customers.CustomerID).ToList();
 
                 // muodostetaan näkymämalli tietokannan rivien pohjalta       
-                foreach (Customers customer in customers)
+                foreach (Customers customers in customer)
                 {
                     CustomerViewModel view = new CustomerViewModel();
-                    view.CustomerID = customer.CustomerID;
-                    view.CompanyName = customer.CompanyName;
-                    view.ContactName = customer.ContactName;
-                    view.ContactTitle = customer.ContactTitle;
-                    view.Address = customer.Address;
-                    view.City = customer.City;
-                    view.Region = customer.Region;
-                    view.PostalCode = customer.PostalCode;
-                    view.Country = customer.Country;
-                    view.Phone = customer.Phone;
-                    view.Fax = customer.Fax;
+                    view.CustomerID = customers.CustomerID;
+                    view.CompanyName = customers.CompanyName;
+                    view.ContactName = customers.ContactName;
+                    view.ContactTitle = customers.ContactTitle;
+                    view.Address = customers.Address;
+                    view.City = customers.City;
+                    view.Region = customers.Region;
+                    view.PostalCode = customers.PostalCode;
+                    view.Country = customers.Country;
+                    view.Phone = customers.Phone;
+                    view.Fax = customers.Fax;
             
                     model.Add(view);
                 }
@@ -67,6 +68,7 @@ namespace NorthwindMVC.Controllers
         //return View(model);
     }
 
+        CultureInfo fiFi = new CultureInfo("fi-FI");
 
         public ActionResult GetOrders(string id)
         {
@@ -75,7 +77,6 @@ namespace NorthwindMVC.Controllers
             List<Orders> orders = (from o in entities.Orders
                                    where o.CustomerID == id
                                    select o).ToList();
-
 
             entities.Dispose();
 
@@ -135,12 +136,11 @@ namespace NorthwindMVC.Controllers
         // GET: Customers/Create
         public ActionResult Create()
         {
-            NorthwindDataEntities entities = new NorthwindDataEntities();
+            NorthwindDataEntities db = new NorthwindDataEntities();
 
             CustomerViewModel model = new CustomerViewModel();
 
             //ViewBag.ReportsTo = new SelectList((from e in db.Employees select new { EmployeeID = e.EmployeeID, ReportsTo = e.ReportsTo }), "EmployeeID", "ReportsTo", null);
-
 
             return View(model);
         }//create
@@ -153,9 +153,10 @@ namespace NorthwindMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(CustomerViewModel model)
         {
-            NorthwindDataEntities entities = new NorthwindDataEntities();
+            NorthwindDataEntities db = new NorthwindDataEntities();
 
             Customers view = new Customers();
+            view.CustomerID = model.CustomerID;
             view.CompanyName = model.CompanyName;
             view.ContactName = model.ContactName;
             view.ContactTitle = model.ContactTitle;
@@ -166,10 +167,9 @@ namespace NorthwindMVC.Controllers
             view.Country = model.Country;
             view.Phone = model.Phone;
             view.Fax = model.Fax;
+            db.Customers.Add(view);
 
             //ViewBag.ReportsTo = new SelectList((from e in db.Employees select new { EmployeeID = e.EmployeeID, ReportsTo = e.ReportsTo }), "EmployeeID", "ReportsTo", null);
-
-            db.Customers.Add(view);
 
             try
             {
@@ -220,7 +220,8 @@ namespace NorthwindMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(CustomerViewModel model)
         {
-            Customers view = new Customers();
+            Customers view = db.Customers.Find(model.CustomerID);
+            view.CustomerID = model.CustomerID;
             view.CompanyName = model.CompanyName;
             view.ContactName = model.ContactName;
             view.ContactTitle = model.ContactTitle;

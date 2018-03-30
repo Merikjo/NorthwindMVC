@@ -116,7 +116,7 @@ namespace NorthwindMVC.Controllers
         // GET: Orders/Create
         public ActionResult Create()
         {
-            NorthwindDataEntities entities = new NorthwindDataEntities();
+            NorthwindDataEntities db = new NorthwindDataEntities();
 
             OrderViewModel model = new OrderViewModel();
 
@@ -134,7 +134,7 @@ namespace NorthwindMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(OrderViewModel model)
         {
-            NorthwindDataEntities entities = new NorthwindDataEntities();
+            NorthwindDataEntities db = new NorthwindDataEntities();
 
             Orders view = new Orders();
             view.OrderDate = model.OrderDate;
@@ -219,7 +219,7 @@ namespace NorthwindMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(OrderViewModel model)
         {
-            Orders view = new Orders();
+            Orders view = db.Orders.Find(model.OrderID);
             view.OrderDate = model.OrderDate;
             view.RequiredDate = model.RequiredDate;
             view.ShippedDate = model.ShippedDate;

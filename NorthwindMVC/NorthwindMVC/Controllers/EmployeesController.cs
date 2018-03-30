@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -62,6 +63,8 @@ namespace NorthwindMVC.Controllers
             return View(model);
         }//Index
 
+        CultureInfo fiFi = new CultureInfo("fi-FI");
+
         // GET: Employees/Details/5
         public ActionResult Details(int? id)
         {
@@ -112,12 +115,11 @@ namespace NorthwindMVC.Controllers
         // GET: Employees/Create
         public ActionResult Create()
         {
-            NorthwindDataEntities entities = new NorthwindDataEntities();
+            NorthwindDataEntities db = new NorthwindDataEntities();
 
             EmployeesViewModel model = new EmployeesViewModel();
 
             ViewBag.ReportsTo = new SelectList((from e in db.Employees select new { EmployeeID = e.EmployeeID, ReportsTo = e.ReportsTo }), "EmployeeID", "ReportsTo", null);
-
 
             return View(model);
         }//create
@@ -126,7 +128,7 @@ namespace NorthwindMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(EmployeesViewModel model)
         {
-            NorthwindDataEntities entities = new NorthwindDataEntities();
+            NorthwindDataEntities db = new NorthwindDataEntities();
 
             Employees view = new Employees();
             view.LastName = model.LastName;
@@ -208,7 +210,7 @@ namespace NorthwindMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(EmployeesViewModel model)
         {
-            Employees view = new Employees();
+            Employees view = db.Employees.Find(model.EmployeeID);
             view.LastName = model.LastName;
             view.FirstName = model.FirstName;
             view.Title = model.Title;
