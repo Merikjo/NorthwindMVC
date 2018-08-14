@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using NorthwindMVC.Models;
 using NorthwindMVC.ViewModels;
 
@@ -286,6 +287,138 @@ namespace NorthwindMVC.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+
+        // GET: CustomerDynamic
+        public ActionResult IndexCustomer()
+        {
+            ViewBag.OmaTieto = "ABC123";
+
+            NorthwindDataEntities entities = new NorthwindDataEntities();
+            List<Customers> model = entities.Customers.ToList();
+            entities.Dispose();
+
+            return View(model);
+        }
+
+        public ActionResult Index2()
+        {
+            return View();
+        }
+
+        public ActionResult Index3()
+        {
+            return View();
+        }
+
+        public JsonResult GetList()
+        {
+            NorthwindDataEntities entities = new NorthwindDataEntities();
+            //List<Customer> model = entities.Customers.ToList();
+
+            var model = (from c in entities.Customers
+                         select new
+                         {
+                             CustomerID = c.CustomerID,
+                             CompanyName = c.CompanyName,
+                             Address = c.Address,
+                             City = c.City
+                         }).ToList();
+
+            string json = JsonConvert.SerializeObject(model);
+            entities.Dispose();
+
+            Response.Expires = -1;
+            Response.CacheControl = "no-cache";
+
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetSingleCustomer(string id)
+        {
+            NorthwindDataEntities entities = new NorthwindDataEntities();
+            var model = (from c in entities.Customers
+                         where c.CustomerID == id
+                         select new
+                         {
+                             CustomerID = c.CustomerID,
+                             CompanyName = c.CompanyName,
+                             Address = c.Address,
+                             City = c.City
+                         }).FirstOrDefault();
+
+            string json = JsonConvert.SerializeObject(model);
+            entities.Dispose();
+
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Update(Customers cust)
+        {
+            NorthwindDataEntities entities = new NorthwindDataEntities();
+            string id = cust.CustomerID;
+
+            bool OK = false;
+
+            // onko kyseessä muokkaus vai uuden lisääminen?
+            if (id == "(uusi)")
+            {
+                // kyseessä on uuden asiakkaan lisääminen, kopioidaan kentät
+                Customers dbItem = new Customers()
+                {
+                    CustomerID = cust.CompanyName.Substring(0, 5).Trim().ToUpper(), //luodaan CustomerID CompanyNamen 5:stä ensimmäisesta kirjaimesta isoilla kirjaimilla
+                    CompanyName = cust.CompanyName,
+                    Address = cust.Address,
+                    City = cust.City
+                };
+
+                // tallennus tietokantaan
+                entities.Customers.Add(dbItem);
+                entities.SaveChanges();
+                OK = true;
+            }
+            else
+            {
+                // muokkaus, haetaan id:n perusteella riviä tietokannasta
+                Customers dbItem = (from c in entities.Customers
+                                    where c.CustomerID == id
+                                    select c).FirstOrDefault();
+                if (dbItem != null)
+                {
+                    dbItem.CompanyName = cust.CompanyName;
+                    dbItem.Address = cust.Address;
+                    dbItem.City = cust.City;
+
+                    // tallennus tietokantaan
+                    entities.SaveChanges();
+                    OK = true;
+                }
+            }
+            entities.Dispose();
+
+            return Json(OK, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult DeleteCustomer(string id)
+        {
+            NorthwindDataEntities entities = new NorthwindDataEntities();
+
+            // etsitään id:n perusteella asiakasrivi kannasta
+            bool OK = false;
+            Customers dbItem = (from c in entities.Customers
+                                where c.CustomerID == id
+                                select c).FirstOrDefault();
+            if (dbItem != null)
+            {
+                // tietokannasta poisto
+                entities.Customers.Remove(dbItem);
+                entities.SaveChanges();
+                OK = true;
+            }
+            entities.Dispose();
+
+            return Json(OK, JsonRequestBehavior.AllowGet);
         }
     }
 }

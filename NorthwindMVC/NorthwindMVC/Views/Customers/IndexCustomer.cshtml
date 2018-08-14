@@ -1,0 +1,33 @@
+﻿@model IEnumerable<NorthwindMVC.Models.Customers>
+
+@{
+    ViewBag.Title = "IndexCustomer";
+}
+
+<h2>Asiakkaat, staatinen tapa</h2>
+
+<p>Kontrollerista tullutta tietoa: <strong>@ViewBag.OmaTieto</strong>.</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Asiakas-id</th>
+            <th>Nimi</th>
+            <th>Osoite</th>
+            <th>Kaupunki</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (NorthwindMVC.Models.Customers cust in Model)
+        {
+            <tr>
+                <td>@cust.CustomerID</td>
+                <td>@cust.CompanyName</td>
+                <td>@cust.Address</td>
+                <td>@cust.City</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>Asiakkaita yhteensä: @Model.Count().</p>

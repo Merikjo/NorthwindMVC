@@ -327,9 +327,13 @@
     <Content Include="Views\Territories\Details.cshtml" />
     <Content Include="Views\Territories\Edit.cshtml" />
     <Content Include="Views\Territories\Index.cshtml" />
+    <Content Include="Views\Customers\IndexCustomer.cshtml" />
+    <Content Include="Views\Customers\Index2.cshtml" />
+    <Content Include="Views\Customers\Index3.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\CustomerDynamic\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
