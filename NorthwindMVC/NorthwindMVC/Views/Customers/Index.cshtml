@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<NorthwindMVC.ViewModels.CustomerViewModel>
 
+@*olio, joka välittää tietoa kontrollerista näkymään*@
 @{
     ViewBag.Title = "Index";
 }
@@ -12,7 +13,8 @@
                 alert("Nappia painettu!");
                 var customerId = $(this).data("customerid");
                 //alert(customerId);
-                $("#orders_" + customerId).css("display", "block");
+                //$("#orders_" + customerId).css("display", "block");
+                $("#orders_" + customerId).css("display", "table-row");
                 var url = "/customers/getorders/" + customerId;
                 $.ajax(url).done(function (data) {
                     //alert("Palvelimelta tuli vastaus.");
@@ -77,7 +79,7 @@
                 </th>
                 <th></th>
             </tr>
-
+            @*//silmukka, joka käy läpi jokaisen malliolion*@
             @foreach (var item in Model) {
             <tr>
                 <td>

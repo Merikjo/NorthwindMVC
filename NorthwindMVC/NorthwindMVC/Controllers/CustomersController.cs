@@ -20,9 +20,11 @@ namespace NorthwindMVC.Controllers
         // GET: Customers
         public ActionResult Index()
         {
+            //nimiavaruuden määrittäminen, lisää automaattisesti using-määreen tiedoston alkuun, jolloin voidaan hyödyntää entiteettimallia.
+            NorthwindDataEntities entities = new NorthwindDataEntities();
+            //haetaan lista asiakasolioista = tietokantakysely
             List<CustomerViewModel> model = new List<CustomerViewModel>();
 
-            NorthwindDataEntities entities = new NorthwindDataEntities();
 
             try
             {
@@ -44,30 +46,34 @@ namespace NorthwindMVC.Controllers
                     view.Phone = customers.Phone;
                     view.Fax = customers.Fax;
             
-                    model.Add(view);
+                    model.Add(view); 
                 }
             }
             finally
             {
+                //Dispose metodi vapauttaa tietokantakyselyn, ei välttämätön, mutta hyvää ohjelmointitapaa
                 entities.Dispose();
             }
+            //malliolion välittäminen (=lista asiakkaita) näkymälle
+            return View(model); //annetaan return lauseelle yksi parametri
 
-            return View(model);
-        //Index
-         //List<Customers> model = new List<Customers>();
-         //try
-         //{
-         //    NorthwindDataEntities entities = new NorthwindDataEntities();
-         //    model = entities.Customers.ToList();
-         //    entities.Dispose();
-         //}
-         //catch (Exception ex)
-         //{
-         //    ViewBag.ErrorMessage = ex.GetType() + ": " + ex.Message;
-         //}
+            #region
+            //Index
+            //List<Customers> model = new List<Customers>();
+            //try
+            //{
+            //    NorthwindDataEntities entities = new NorthwindDataEntities();
+            //    model = entities.Customers.ToList();
+            //    entities.Dispose();
+            //}
+            //catch (Exception ex)
+            //{
+            //    ViewBag.ErrorMessage = ex.GetType() + ": " + ex.Message;
+            //}
 
-        //return View(model);
-    }
+            //return View(model);
+            #endregion
+        }
 
         CultureInfo fiFi = new CultureInfo("fi-FI");
 
