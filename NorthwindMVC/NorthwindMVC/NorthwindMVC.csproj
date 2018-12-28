@@ -153,6 +153,7 @@
     <Compile Include="Controllers\OrderDetailsController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\ShippersController.cs" />
     <Compile Include="Controllers\SuppliersController.cs" />
     <Compile Include="Controllers\TerritoriesController.cs" />
@@ -162,10 +163,34 @@
     <Compile Include="Models\Categories.cs">
       <DependentUpon>NorthwindModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Contacts.cs">
+      <DependentUpon>NorthwindModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Customers.cs">
       <DependentUpon>NorthwindModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Employees.cs">
+      <DependentUpon>NorthwindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Orders.cs">
+      <DependentUpon>NorthwindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Order_Details.cs">
+      <DependentUpon>NorthwindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Products.cs">
+      <DependentUpon>NorthwindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Region.cs">
+      <DependentUpon>NorthwindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Shippers.cs">
+      <DependentUpon>NorthwindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Suppliers.cs">
+      <DependentUpon>NorthwindModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Territories.cs">
       <DependentUpon>NorthwindModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\EmployeesViewModel.cs" />
@@ -184,28 +209,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>NorthwindModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Orders.cs">
-      <DependentUpon>NorthwindModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Order_Details.cs">
-      <DependentUpon>NorthwindModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Products.cs">
-      <DependentUpon>NorthwindModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Region.cs">
-      <DependentUpon>NorthwindModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Shippers.cs">
-      <DependentUpon>NorthwindModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\SimpleOrderData.cs" />
-    <Compile Include="Models\Suppliers.cs">
-      <DependentUpon>NorthwindModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Territories.cs">
-      <DependentUpon>NorthwindModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CustomerViewModel.cs" />
     <Compile Include="ViewModels\OrderViewModel.cs" />
@@ -335,6 +339,7 @@
     <Content Include="Views\Customers\Index3.cshtml" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+    <Content Include="Views\Sales\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

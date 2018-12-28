@@ -1,0 +1,56 @@
+﻿@model IEnumerable<NorthwindMVC.Models.Customers>
+@{
+    ViewBag.Title = "List Customer";
+}
+
+
+@section scripts {
+    <script>
+        $(function () {
+            $(".displayOrderDataLink").click(function () {
+                var customerId = $(this).data("customerid");
+                //alert("Klikattiin: " + customerId);
+
+                var url = "GetOrderData/" + customerId;
+                $.getJSON(url, null, function (data) {
+                    //alert("Kutsu onnistui, data = " + data.html);
+
+                    var id = "#orderDetailsRow-" + customerId;
+                    $(id).html(data.html);
+                    $(id).css("display", "block");
+                });
+                return false;
+            });
+        });
+    </script> 
+    }
+
+
+<h2>List Customer</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Customer ID</th>
+            <th>Company Name</th>
+            <th>Contact person</th>
+            <th>City</th>
+            <th>Country</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (NorthwindMVC.Models.Customers cust in Model)
+        {
+            <tr>
+                <td><a href="#" class="displayOrderDataLink" data-customerid="@cust.CustomerID"><span class="glyphicon glyphicon-plus-sign"></span></a>@cust.CustomerID</td>
+                <td>@cust.CompanyName</td>
+                <td>@cust.ContactName</td>
+                <td>@cust.City</td>
+                <td>@cust.Country</td>
+            </tr>
+            <tr id="orderDetailsRow-@cust.CustomerID" style="display: none;">           
+            </tr>
+        }
+    </tbody>
+</table>
+
