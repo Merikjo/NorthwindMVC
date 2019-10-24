@@ -27,6 +27,7 @@ namespace NorthwindMVC.Models
     
         public virtual DbSet<Categories> Categories { get; set; }
         public virtual DbSet<Contacts> Contacts { get; set; }
+        public virtual DbSet<CustomerDemographics> CustomerDemographics { get; set; }
         public virtual DbSet<Customers> Customers { get; set; }
         public virtual DbSet<Employees> Employees { get; set; }
         public virtual DbSet<Order_Details> Order_Details { get; set; }
@@ -35,6 +36,8 @@ namespace NorthwindMVC.Models
         public virtual DbSet<Region> Region { get; set; }
         public virtual DbSet<Shippers> Shippers { get; set; }
         public virtual DbSet<Suppliers> Suppliers { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Territories> Territories { get; set; }
+        public virtual DbSet<Login> Login { get; set; }
     }
 }

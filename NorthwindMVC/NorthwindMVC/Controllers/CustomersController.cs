@@ -25,7 +25,6 @@ namespace NorthwindMVC.Controllers
             //haetaan lista asiakasolioista = tietokantakysely
             List<CustomerViewModel> model = new List<CustomerViewModel>();
 
-
             try
             {
                 List<Customers> customer = entities.Customers.OrderBy(Customers => Customers.CustomerID).ToList();

@@ -6,7 +6,8 @@
 }
 
 @section scripts {
-    <script src="~/Scripts/jquery-1.10.2.js"></script>
+
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
     <script type="text/javascript">
         $(function () {
             $(".näytäTilauksetNappi").click(function () {
@@ -30,57 +31,58 @@
         });
     </script>
 }
-    <div class="jumbotron">
-        <h2>Customers</h2>
+<div class="jumbotron">
+    <h2>Customers</h2>
 
-@*<pre>
-@ViewBag.ErrorMessage
-</pre>*@
+    @*<pre>
+        @ViewBag.ErrorMessage
+        </pre>*@
 
-        @*<p>
+    @*<p>
             @Html.ActionLink("Create New", "Create")
         </p>*@
-        <p><a href="/Customers/Create" class="w3-btn w3-large">Create New Customer</a></p>
+    <p><a href="/Customers/Create" class="w3-btn w3-large">Create New Customer</a></p>
 
-        <table class="table table-striped">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.CustomerID)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CompanyName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ContactName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ContactTitle)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Address)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.City)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Region)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PostalCode)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Country)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Phone)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Fax)
-                </th>
-                <th></th>
-            </tr>
-            @*//silmukka, joka käy läpi jokaisen malliolion*@
-            @foreach (var item in Model) {
+    <table class="table table-striped">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CompanyName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContactName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContactTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Region)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PostalCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Country)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fax)
+            </th>
+            <th></th>
+        </tr>
+        @*//silmukka, joka käy läpi jokaisen malliolion*@
+        @foreach (var item in Model)
+        {
             <tr>
                 <td>
                     <a href="#"><span data-customerid="@Html.DisplayFor(modelItem => item.CustomerID)" class="glyphicon glyphicon-plus näytäTilauksetNappi"></span></a>
@@ -122,12 +124,12 @@
                     @Html.ActionLink("Delete", "Delete", new { id = item.CustomerID })
                 </td>
             </tr>
-        //luodaan alinäkymän tiedot:
-        <tr style="display: none;" id="orders_@Html.DisplayFor(modelItem => item.CustomerID)">
-            <td id="margin_@Html.DisplayFor(modelItem => item.CustomerID)">&nbsp;</td>
-            <td colspan="10" id="orderText_@Html.DisplayFor(modelItem => item.CustomerID)"><pre>Loading...</pre></td>
-        </tr>
-}
+            //luodaan alinäkymän tiedot:
+            <tr style="display: none;" id="orders_@Html.DisplayFor(modelItem => item.CustomerID)">
+                <td id="margin_@Html.DisplayFor(modelItem => item.CustomerID)">&nbsp;</td>
+                <td colspan="10" id="orderText_@Html.DisplayFor(modelItem => item.CustomerID)"><pre>Loading...</pre></td>
+            </tr>
+        }
 
-        </table>
-        </div>
+    </table>
+</div>
